@@ -2,12 +2,12 @@
 
 This repository contains the source code for my personal portfolio website, built to showcase my projects, skills, and experience in web development.
 
-🌐 **Live Website:**  
+**Live Website:**  
 https://krishna-gandhi.netlify.app/
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Frontend:** React, Vite
 - **Styling & Animations:** CSS, GSAP
@@ -17,7 +17,7 @@ https://krishna-gandhi.netlify.app/
 
 ---
 
-## ✨ Features
+## Features
 
 - Modern, responsive UI
 - Animated sections and interactive components
@@ -27,7 +27,7 @@ https://krishna-gandhi.netlify.app/
 
 ---
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 To run this project locally:
 
@@ -40,7 +40,7 @@ npm run dev
 🛠 Build for Production
 npm run build
 
-📌 Learning Highlights
+Learning Highlights
 
 Debugging real-world production build issues
 
@@ -50,7 +50,7 @@ Understanding modern frontend deployment workflows
 
 Structuring scalable React projects
 
-📫 Contact
+Contact
 
 Portfolio: https://krishna-gandhi.netlify.app/
 
@@ -58,6 +58,4 @@ GitHub: https://github.com/krishnaGandhi11
 
 LinkedIn: (add your LinkedIn URL here)
 
-⭐ If you like this project, feel free to star the repository.
-
-```bash
+If you like this project, feel free to star the repository.
