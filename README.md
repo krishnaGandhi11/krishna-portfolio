@@ -59,5 +59,3 @@ GitHub: https://github.com/krishnaGandhi11
 LinkedIn: (add your LinkedIn URL here)
 
 If you like this project, feel free to star the repository.
-
-```bash
