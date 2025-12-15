@@ -6,7 +6,7 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-container">
                 <div className="flex flex-col justify-center md:items-start items-center">
-                    <a href="/">Vist my blog</a><br/>
+                    <a href="/">Visit my blog</a><br/>
                     {/* <a href="mailto:krishnagandhi11@gmail.com/">https://krishnagandhi11@gmail.com</a> */}
                 </div>
                 <div className="socials">
