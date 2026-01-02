@@ -227,7 +227,7 @@ const expCards = [
         title: "Machine Learning & Applied AI Projects (2024 – Present)",
         date: "2024",
         responsibilities: [
-            "Completed 1-month Machine Learning Using Python training.",
+            "Completed 1-month Machine Learning Using Python training. ",
             "Worked with Python, Sklearn, data preprocessing, model evaluation, and deployment basics.",
             "Built practical ML projects:",
             "Resume Role Classifier — 95% accuracy using TF-IDF + Naive Bayes.",
