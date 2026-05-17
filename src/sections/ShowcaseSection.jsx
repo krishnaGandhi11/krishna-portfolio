@@ -24,11 +24,13 @@ const projects = [
     },
 ];
 
-const IframePreview = ({ src, title, onClick }) => {
+const LazyIframePreview = ({ src, title, imgPath, alt, onClick }) => {
     const containerRef = useRef(null);
+    const [isHovered, setIsHovered] = useState(false);
     const [dims, setDims] = useState({ scale: 0.3, height: 300 });
 
     useEffect(() => {
+        if (!isHovered) return;
         const el = containerRef.current;
         if (!el) return;
         const obs = new ResizeObserver(([entry]) => {
@@ -37,27 +39,51 @@ const IframePreview = ({ src, title, onClick }) => {
         });
         obs.observe(el);
         return () => obs.disconnect();
-    }, []);
+    }, [isHovered]);
 
     return (
         <div
             ref={containerRef}
-            className="w-full h-full relative overflow-hidden rounded-xl cursor-pointer"
+            className="w-full h-full relative overflow-hidden rounded-xl cursor-pointer group"
             onClick={onClick}
+            onMouseEnter={() => setIsHovered(true)}
+            role="link"
+            aria-label={`View live preview of ${title}`}
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter') onClick(); }}
         >
-            <iframe
-                src={src}
-                title={title}
+            {/* Thumbnail shown by default */}
+            <img
+                src={imgPath}
+                alt={alt || title}
                 loading="lazy"
-                style={{
-                    width: '1440px',
-                    height: dims.scale > 0 ? `${dims.height / dims.scale}px` : '1000px',
-                    border: 'none',
-                    transform: `scale(${dims.scale})`,
-                    transformOrigin: 'top left',
-                    pointerEvents: 'none',
-                }}
+                className={`w-full h-full object-cover transition-opacity duration-500 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
             />
+
+            {/* Iframe loads only on hover */}
+            {isHovered && (
+                <iframe
+                    src={src}
+                    title={title}
+                    loading="lazy"
+                    className="absolute inset-0"
+                    style={{
+                        width: '1440px',
+                        height: dims.scale > 0 ? `${dims.height / dims.scale}px` : '1000px',
+                        border: 'none',
+                        transform: `scale(${dims.scale})`,
+                        transformOrigin: 'top left',
+                        pointerEvents: 'none',
+                    }}
+                />
+            )}
+
+            {/* Hover overlay */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-white text-sm md:text-base font-medium bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
+                    View Live ↗
+                </span>
+            </div>
         </div>
     );
 };
@@ -82,8 +108,6 @@ const ShowcaseSection = () => {
         });
     }, { scope: sectionRef, dependencies: [] })
 
-    const leftProjectLink = "https://waywiseapp.tech/";
-
     return (
         <div id="work" ref={sectionRef} className="app-showcase">
             <div className="w-full">
@@ -92,10 +116,12 @@ const ShowcaseSection = () => {
 
                     <div className="first-project-wrapper">
                         <div className="image-wrapper">
-                            <IframePreview
-                                src={leftProjectLink}
+                            <LazyIframePreview
+                                src="https://waywiseapp.tech/"
                                 title="Real-Time Intelligent Navigation Assistant"
-                                onClick={() => window.open(leftProjectLink, "_blank")}
+                                imgPath="/images/project1-ww.webp"
+                                alt="WayWise Navigation App"
+                                onClick={() => window.open("https://waywiseapp.tech/", "_blank")}
                             />
                         </div>
                         <div className="text-content">
@@ -114,9 +140,11 @@ const ShowcaseSection = () => {
                             <div key={project.title} className="project">
                                 <div className={`image-wrapper ${project.link !== "#" ? "bg-transparent p-0" : project.className}`}>
                                     {project.link !== "#" ? (
-                                        <IframePreview
+                                        <LazyIframePreview
                                             src={project.link}
                                             title={project.title}
+                                            imgPath={project.imgPath}
+                                            alt={project.alt}
                                             onClick={() => window.open(project.link, "_blank")}
                                         />
                                     ) : (

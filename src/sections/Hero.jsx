@@ -1,6 +1,6 @@
 import { words} from "../constants/index.js";
 import Button from "../components/Button.jsx";
-import HeroExperience from "../components/hero_modelss/HeroExperience.jsx";
+import HeroExperience from "../components/hero_models/HeroExperience.jsx";
 import { useGSAP} from '@gsap/react';
 import gsap from 'gsap';
 import { useRef, useState, useEffect } from "react";
@@ -84,7 +84,7 @@ const Hero = () => {
                 </header>
 
                 {/*RIGHT: 3D Model */}
-                <figure>
+                <figure aria-hidden="true">
                     <div ref={targetRef} className="hero-3d-layout">
                         {hasBeenVisible ? <HeroExperience isVisible={heroIsVisible} /> : null}
                     </div>
