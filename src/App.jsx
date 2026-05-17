@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Hero from "./sections/Hero.jsx";
 import NavBar from "./components/NavBar.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 const ShowcaseSection = lazy(() => import("./sections/ShowcaseSection.jsx"));
 const LogoSection = lazy(() => import("./sections/LogoSection.jsx").then(m => ({ default: m.LogoSection })));
@@ -24,6 +25,7 @@ const App = () => {
                 <Contact />
                 <Footer />
             </Suspense>
+            <ScrollToTop />
         </>
     )
 }

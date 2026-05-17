@@ -4,6 +4,29 @@ import emailjs from "@emailjs/browser";
 import TitleHeader from "../components/TitleHeader";
 import { socialImgs } from "../constants/index.js";
 
+const Toast = ({ message, type, onClose }) => {
+    useEffect(() => {
+        const timer = setTimeout(onClose, 4000);
+        return () => clearTimeout(timer);
+    }, [onClose]);
+
+    return (
+        <div
+            role="alert"
+            className={`fixed top-8 right-8 z-[200] px-6 py-4 rounded-xl border backdrop-blur-md shadow-2xl transition-all duration-500 animate-[slideIn_0.4s_ease-out] ${
+                type === "success"
+                    ? "bg-green-900/80 border-green-500/30 text-green-100"
+                    : "bg-red-900/80 border-red-500/30 text-red-100"
+            }`}
+        >
+            <div className="flex items-center gap-3">
+                <span className="text-xl">{type === "success" ? "✅" : "❌"}</span>
+                <p className="text-sm md:text-base font-medium">{message}</p>
+            </div>
+        </div>
+    );
+};
+
 const Contact = () => {
     const formRef = useRef(null);
     const imagePanelRef = useRef(null);
@@ -11,6 +34,7 @@ const Contact = () => {
     const glowRef = useRef(null);
     const rafRef = useRef(null);
     const [loading, setLoading] = useState(false);
+    const [toast, setToast] = useState(null);
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -34,10 +58,12 @@ const Contact = () => {
                 import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
             );
 
-            // Reset form and stop loading
+            // Reset form and show success toast
             setForm({ name: "", email: "", message: "" });
+            setToast({ message: "Message sent successfully! I'll get back to you soon.", type: "success" });
         } catch (error) {
-            console.error("EmailJS Error:", error); // Optional: show toast
+            console.error("EmailJS Error:", error);
+            setToast({ message: "Something went wrong. Please try again or reach out via LinkedIn.", type: "error" });
         } finally {
             setLoading(false); // Always stop loading, even on error
         }
@@ -87,9 +113,16 @@ const Contact = () => {
 
     return (
         <section id="contact" className="flex-center section-padding">
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
             <div className="w-full h-full md:px-10 px-5">
                 <TitleHeader
-                    title="Get in Touch – Let’s Connect"
+                    title="Get in Touch – Let's Connect"
                 />
                 <div className="grid-12-cols mt-16">
                     <div className="xl:col-span-5">
@@ -107,7 +140,8 @@ const Contact = () => {
                                         name="name"
                                         value={form.name}
                                         onChange={handleChange}
-                                        placeholder="What’s your good name?"
+                                        placeholder="What's your good name?"
+                                        aria-label="Your full name"
                                         required
                                     />
                                 </div>
@@ -120,7 +154,8 @@ const Contact = () => {
                                         name="email"
                                         value={form.email}
                                         onChange={handleChange}
-                                        placeholder="What’s your email address?"
+                                        placeholder="What's your email address?"
+                                        aria-label="Your email address"
                                         required
                                     />
                                 </div>
@@ -133,19 +168,20 @@ const Contact = () => {
                                         value={form.message}
                                         onChange={handleChange}
                                         placeholder="How can I help you?"
+                                        aria-label="Your message"
                                         rows="5"
                                         required
                                     />
                                 </div>
 
-                                <button type="submit">
+                                <button type="submit" disabled={loading}>
                                     <div className="cta-button group">
                                         <div className="bg-circle" />
                                         <p className="text">
                                             {loading ? "Sending..." : "Send Message"}
                                         </p>
                                         <div className="arrow-wrapper">
-                                            <img src="/images/arrow-down.svg" alt="arrow" />
+                                            <img src="/images/arrow-down.svg" alt="Send" />
                                         </div>
                                     </div>
                                 </button>
@@ -188,6 +224,7 @@ const Contact = () => {
                                             href={social.url}
                                             target="_blank"
                                             rel="noreferrer"
+                                            aria-label={`Visit my ${social.name} profile`}
                                             className="flex items-center gap-3 bg-black/40 hover:bg-black/60 transition-colors rounded-xl px-5 py-3 border border-white/10"
                                         >
                                             <img src={social.imgPath} alt={social.name} className="w-6 h-6 object-contain" />

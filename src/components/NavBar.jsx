@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {navLinks} from "../constants/index.js";
+import {navLinks, resumeLink} from "../constants/index.js";
 
 const NavBar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -32,6 +32,12 @@ const NavBar = () => {
                                 </a>
                             </li>
                             ))}
+                        <li className="group">
+                            <a href={resumeLink} target="_blank" rel="noreferrer">
+                                <span>Resume</span>
+                                <span className="underline" />
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <a href="#contact" className="contact-btn group">

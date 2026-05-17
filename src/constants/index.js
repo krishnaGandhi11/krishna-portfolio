@@ -31,7 +31,7 @@ const words = [
 const counterItems = [
     { value: 3, suffix: "+", label: "Years Coding Experience" },
     { value: 9, suffix: "+", label: "Projects Completed" },
-    { value: 11, suffix: "+", label: "Open-Source Contributions" },
+    { value: 15, suffix: "+", label: "Open-Source Contributions" },
     { value: 10, suffix: "+", label: "Hackathons Participated" },
 ];
 
@@ -136,7 +136,19 @@ const techStackImgs = [
 
 const expCards = [
     {
-        review:"",
+        imgPath: "/images/gsoc-img.png",
+        logoPath: "/images/gsoc-logo.png",
+        title: "Google Summer of Code 2026 — Joomla",
+        date: "GSoC Contributor | May 2026–Present",
+        responsibilities: [
+            "Selected as a GSoC 2026 contributor for the Joomla open-source project, building the 'Translator Feedback Loop' extension.",
+            "Designing a native Joomla CMS extension inspired by Reinforcement Learning from Human Feedback (RLHF) to improve translation quality across 64+ languages.",
+            "Building a full-stack component (com_translator) with side-by-side translation editor, per-language feedback queues, and AI-powered translation drafts.",
+            "Architecting the system using Joomla 5.x/6.x standards: Dependency Injection, Event Dispatchers, MVC components, and Task Scheduler plugins.",
+            "Mentored by Herman Peeren — weekly meetings, code reviews, and iterative architecture refinement using the Weblinks reference repository."
+        ],
+    },
+    {
         imgPath: "/images/joomla.png",
         logoPath: "/images/joomla-img.png",
         title: "Joomla Core Contributor & Extension Developer",
@@ -150,7 +162,6 @@ const expCards = [
         ],
     },
     {
-        review:"",
         imgPath: "/images/cgc-img.png",
         img1Path: "/images/WebDev-logo.png",
         logoPath: "/images/cgc-logo.png",
@@ -159,15 +170,12 @@ const expCards = [
         responsibilities: [
             "Started B.Tech in CSE and began building a strong base in programming, web technologies, and problem-solving.",
             "Completed Front-End Web Development (Infosys Springboard) — HTML, CSS, JS, responsive designs.",
-            "Built multiple practical projects including: ",
-                "ChatBot using Gemini AI (React + JS)",
-                "Portfolio websites & interactive UI components",
-                "Gained hands-on experience with React.js, Tailwind, JavaScript, APIs, and version control (Git/GitHub).",
-                "Actively applying academic concepts in real-world projects and continuous self-learning."
-            ],
+            "Built multiple practical projects including ChatBot using Gemini AI (React + JS), portfolio websites, and interactive UI components.",
+            "Gained hands-on experience with React.js, Tailwind, JavaScript, APIs, and version control (Git/GitHub).",
+            "Actively applying academic concepts in real-world projects and continuous self-learning."
+        ],
     },
     {
-        review:"",
         imgPath: "/images/cn-img.png",
         img1Path: "/images/DSA-img.png",
         logoPath: "/images/cn-logo.png",
@@ -182,18 +190,15 @@ const expCards = [
         ],
     },
     {
-        review:"",
         imgPath: "/images/GI-img.png",
         img1Path: "/images/ML-img.png",
         logoPath: "/images/GI-logo.png",
         title: "Machine Learning & Applied AI Projects (2024 – Present)",
         date: "2024",
         responsibilities: [
-            "Completed 1-month Machine Learning Using Python training. ",
+            "Completed 1-month Machine Learning Using Python training.",
             "Worked with Python, Sklearn, data preprocessing, model evaluation, and deployment basics.",
-            "Built practical ML projects:",
-            "Resume Role Classifier — 95% accuracy using TF-IDF + Naive Bayes.",
-            "Real-Time Intelligent Navigation Assistant — AI-driven stop suggestions, Maps API integration.",
+            "Built practical ML projects: Resume Role Classifier (95% accuracy using TF-IDF + Naive Bayes) and Real-Time Intelligent Navigation Assistant (AI-driven stop suggestions, Maps API integration).",
             "Integrated ML concepts with full-stack skills for intelligent features in apps."
         ],
     },
@@ -214,50 +219,9 @@ const expLogos = [
     },
 ];
 
-const testimonials = [
-    {
-        name: "Esther Howard",
-        mentions: "@estherhoward",
-        review:
-            "I can’t say enough good things about Adrian. He was able to take our complex project requirements and turn them into a seamless, functional website. His problem-solving abilities are outstanding.",
-        imgPath: "/images/client1.png",
-    },
-    {
-        name: "Wade Warren",
-        mentions: "@wadewarren",
-        review:
-            "Working with Adrian was a fantastic experience. He transformed our outdated website into a modern, user-friendly platform. His attention to detail and commitment to quality are unmatched. Highly recommend him for any web dev projects.",
-        imgPath: "/images/client3.png",
-    },
-    {
-        name: "Guy Hawkins",
-        mentions: "@guyhawkins",
-        review:
-            "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-        imgPath: "/images/client2.png",
-    },
-    {
-        name: "Marvin McKinney",
-        mentions: "@marvinmckinney",
-        review:
-            "Adrian was a pleasure to work with. He turned our outdated website into a fresh, intuitive platform that’s both modern and easy to navigate. Fantastic work overall.",
-        imgPath: "/images/client5.png",
-    },
-    {
-        name: "Floyd Miles",
-        mentions: "@floydmiles",
-        review:
-            "Adrian’s expertise in web development is truly impressive. He delivered a robust and scalable solution for our e-commerce site, and our online sales have significantly increased since the launch. He’s a true professional!",
-        imgPath: "/images/client4.png",
-    },
-    {
-        name: "Albert Flores",
-        mentions: "@albertflores",
-        review:
-            "Adrian was a pleasure to work with. He understood our requirements perfectly and delivered a website that exceeded our expectations. His skills in both frontend and backend dev are top-notch.",
-        imgPath: "/images/client6.png",
-    },
-];
+// Testimonials — placeholder removed; will be populated with real reviews.
+const testimonials = [];
+
 
 const socialImgs = [
     // {
@@ -291,6 +255,8 @@ const about = {
     imagePath: "/images/IMG_2149.png",
 };
 
+const resumeLink = "https://drive.google.com/file/d/1IyRf-1mgZU4o-NUAMtyKlPhWSDs2hqlL/view?usp=sharing";
+
 export {
     words,
     abilities,
@@ -303,4 +269,5 @@ export {
     techStackImgs,
     navLinks,
     about,
+    resumeLink,
 };
