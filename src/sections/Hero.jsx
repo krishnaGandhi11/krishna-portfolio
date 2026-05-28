@@ -1,6 +1,7 @@
 import { words} from "../constants/index.js";
 import Button from "../components/Button.jsx";
 import HeroExperience from "../components/hero_models/HeroExperience.jsx";
+import HeroVariantSwitcher from "../components/HeroVariantSwitcher.jsx";
 import { useGSAP} from '@gsap/react';
 import gsap from 'gsap';
 import { useRef, useState, useEffect } from "react";
@@ -11,6 +12,14 @@ const Hero = () => {
     const { targetRef, hasBeenVisible } = useInViewOnce({ rootMargin: "200px 0px" });
     const heroRef = useRef(null);
     const [heroIsVisible, setHeroIsVisible] = useState(true);
+
+    const [variant, setVariant] = useState(() => {
+        try { return localStorage.getItem("heroVariant") || "galaxy"; }
+        catch { return "galaxy"; }
+    });
+    useEffect(() => {
+        try { localStorage.setItem("heroVariant", variant); } catch { /* ignore */ }
+    }, [variant]);
 
     useEffect(() => {
         const el = heroRef.current;
@@ -86,12 +95,14 @@ const Hero = () => {
                 {/*RIGHT: 3D Model */}
                 <figure aria-hidden="true">
                     <div ref={targetRef} className="hero-3d-layout">
-                        {hasBeenVisible ? <HeroExperience isVisible={heroIsVisible} /> : null}
+                        {hasBeenVisible ? <HeroExperience isVisible={heroIsVisible} variant={variant} /> : null}
                     </div>
                 </figure>
             </div>
 
             <AnimatedCounter />
+
+            <HeroVariantSwitcher value={variant} onChange={setVariant} />
         </section>
     )
 }

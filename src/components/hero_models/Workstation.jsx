@@ -1,0 +1,227 @@
+import { useEffect, useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
+
+useGLTF.preload("/models/workstation.glb");
+
+// The sugaa GLB labels display surfaces as "<n>PIC-0".
+// 2PIC-0 is the wall TV (2:1 baked texture), 1/3/4PIC-0 are the three desk monitors (1:1 baked).
+// SCREEN-0 is a non-display inner panel — do NOT target it.
+const PIC_CONTENT = {
+    "2PIC-0": "hero",
+    "1PIC-0": "terminal",
+    "3PIC-0": "joomla",
+    "4PIC-0": "css",
+};
+
+const CONTENT = {
+    hero: {
+        title: "hero.jsx — krishna-portfolio",
+        bg: "#0f1117",
+        fontPx: 20,
+        lineH: 30,
+        gutterX: 64,
+        lines: [
+            { t: "// hero.jsx", c: "#6b7280" },
+            { t: "import { Canvas } from '@react-three/fiber';", c: "#c4b5fd" },
+            { t: "import Workstation from './Workstation';", c: "#c4b5fd" },
+            { t: "", c: "#ffffff" },
+            { t: "const Hero = () => (", c: "#93c5fd" },
+            { t: "  <Canvas camera={{ position: [0, 0, 9] }}>", c: "#e5e7eb" },
+            { t: "    <ambientLight intensity={0.4} />", c: "#fcd34d" },
+            { t: "    <Workstation autoRotate />", c: "#fcd34d" },
+            { t: "  </Canvas>", c: "#e5e7eb" },
+            { t: ");", c: "#93c5fd" },
+            { t: "", c: "#ffffff" },
+            { t: "export default Hero;", c: "#f472b6" },
+        ],
+    },
+    terminal: {
+        title: "zsh — krishna-portfolio",
+        bg: "#0b0c14",
+        fontPx: 18,
+        lineH: 26,
+        gutterX: 20,
+        lines: [
+            { t: "$ npm run dev", c: "#a7f3d0" },
+            { t: "", c: "#ffffff" },
+            { t: "  VITE v6.0.1  ready in 412 ms", c: "#e5e7eb" },
+            { t: "", c: "#ffffff" },
+            { t: "  > Local:   localhost:5173", c: "#c4b5fd" },
+            { t: "  > Network: --host to expose", c: "#9ca3af" },
+            { t: "", c: "#ffffff" },
+            { t: "  HMR  /src/sections/Hero.jsx", c: "#86efac" },
+            { t: "  HMR  /src/App.jsx", c: "#86efac" },
+            { t: "", c: "#ffffff" },
+            { t: "$ git log --oneline -3", c: "#a7f3d0" },
+            { t: "aa8c002 feat: hero variants", c: "#fcd34d" },
+            { t: "6c5a7d3 refactor: live iframes", c: "#fcd34d" },
+            { t: "ca23406 fix: thumbnails", c: "#fcd34d" },
+            { t: "", c: "#ffffff" },
+            { t: "$ _", c: "#a7f3d0" },
+        ],
+    },
+    joomla: {
+        title: "PortfolioController.php",
+        bg: "#101622",
+        fontPx: 16,
+        lineH: 24,
+        gutterX: 44,
+        lines: [
+            { t: "<?php", c: "#f472b6" },
+            { t: "// components/com_portfolio", c: "#6b7280" },
+            { t: "defined('_JEXEC') or die;", c: "#e5e7eb" },
+            { t: "", c: "#ffffff" },
+            { t: "use Joomla\\CMS\\Factory;", c: "#c4b5fd" },
+            { t: "use Joomla\\CMS\\MVC\\Controller\\BaseController;", c: "#c4b5fd" },
+            { t: "", c: "#ffffff" },
+            { t: "class PortfolioController", c: "#93c5fd" },
+            { t: "  extends BaseController", c: "#93c5fd" },
+            { t: "{", c: "#e5e7eb" },
+            { t: "  public function display($c = false) {", c: "#fcd34d" },
+            { t: "    $app  = Factory::getApplication();", c: "#e5e7eb" },
+            { t: "    $view = $app->input->get('view');", c: "#e5e7eb" },
+            { t: "    parent::display($c);", c: "#e5e7eb" },
+            { t: "  }", c: "#fcd34d" },
+            { t: "}", c: "#e5e7eb" },
+        ],
+    },
+    css: {
+        title: "hero.css — tailwind",
+        bg: "#0e1320",
+        fontPx: 17,
+        lineH: 26,
+        gutterX: 44,
+        lines: [
+            { t: "/* hero.css */", c: "#6b7280" },
+            { t: ".hero-3d-layout {", c: "#fcd34d" },
+            { t: "  @apply relative w-full h-full;", c: "#93c5fd" },
+            { t: "  @apply rounded-2xl overflow-hidden;", c: "#93c5fd" },
+            { t: "}", c: "#fcd34d" },
+            { t: "", c: "#ffffff" },
+            { t: ".glow {", c: "#fcd34d" },
+            { t: "  box-shadow: 0 0 40px #a78bfa;", c: "#e5e7eb" },
+            { t: "  transition: all .3s ease;", c: "#e5e7eb" },
+            { t: "}", c: "#fcd34d" },
+            { t: "", c: "#ffffff" },
+            { t: "@keyframes pulse {", c: "#c4b5fd" },
+            { t: "  0%, 100% { opacity: 1 }", c: "#e5e7eb" },
+            { t: "  50%      { opacity: .7 }", c: "#e5e7eb" },
+            { t: "}", c: "#c4b5fd" },
+        ],
+    },
+};
+
+const buildContentTexture = (kind, w, h) => {
+    const cfg = CONTENT[kind];
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = cfg.bg;
+    ctx.fillRect(0, 0, w, h);
+
+    const barH = 36;
+    ctx.fillStyle = "#1a1d29";
+    ctx.fillRect(0, 0, w, barH);
+    ["#ef4444", "#facc15", "#22c55e"].forEach((color, i) => {
+        ctx.beginPath();
+        ctx.arc(18 + i * 18, barH / 2, 5, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+    });
+    ctx.fillStyle = "#9ca3af";
+    ctx.font = "13px ui-monospace, Menlo, monospace";
+    ctx.textBaseline = "middle";
+    ctx.fillText(cfg.title, 80, barH / 2);
+
+    ctx.font = `${cfg.fontPx}px ui-monospace, Menlo, monospace`;
+    ctx.textBaseline = "top";
+    const startY = barH + 12;
+    cfg.lines.forEach((line, i) => {
+        ctx.fillStyle = "#4b5563";
+        ctx.fillText(String(i + 1).padStart(2, " "), 12, startY + i * cfg.lineH);
+        ctx.fillStyle = line.c;
+        ctx.fillText(line.t, cfg.gutterX, startY + i * cfg.lineH);
+    });
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = 8;
+    texture.needsUpdate = true;
+    return texture;
+};
+
+const TARGET_SIZE = 5;
+
+const Workstation = ({ active = true, isMobile = false }) => {
+    const groupRef = useRef();
+    const { scene } = useGLTF("/models/workstation.glb");
+
+    const screenTextures = useMemo(
+        () => ({
+            hero: buildContentTexture("hero", 1024, 512),
+            terminal: buildContentTexture("terminal", 512, 512),
+            joomla: buildContentTexture("joomla", 512, 512),
+            css: buildContentTexture("css", 512, 512),
+        }),
+        []
+    );
+
+    const { cloned, fitScale } = useMemo(() => {
+        const cloned = scene.clone(true);
+        const box = new THREE.Box3().setFromObject(cloned);
+        const size = new THREE.Vector3();
+        const center = new THREE.Vector3();
+        box.getSize(size);
+        box.getCenter(center);
+        cloned.position.sub(center);
+        const maxDim = Math.max(size.x, size.y, size.z) || 1;
+        const fitScale = TARGET_SIZE / maxDim;
+        return { cloned, fitScale };
+    }, [scene]);
+
+    useEffect(() => {
+        cloned.traverse((obj) => {
+            if (!obj.isMesh || !obj.material) return;
+            const kind = PIC_CONTENT[obj.material.name];
+            if (!kind) return;
+            const tex = screenTextures[kind];
+            const newMat = obj.material.clone();
+            newMat.map = tex;
+            newMat.emissive = new THREE.Color("#cbd5e1");
+            newMat.emissiveMap = tex;
+            newMat.emissiveIntensity = 1.0;
+            newMat.needsUpdate = true;
+            obj.material = newMat;
+        });
+        return () => {
+            Object.values(screenTextures).forEach((t) => t.dispose());
+        };
+    }, [cloned, screenTextures]);
+
+    useFrame((_, delta) => {
+        if (!active || !groupRef.current) return;
+        groupRef.current.rotation.y += delta * 0.18;
+    });
+
+    return (
+        <>
+            <ambientLight intensity={0.9} />
+            <directionalLight position={[4, 6, 4]} intensity={1.2} />
+            <directionalLight position={[-4, 3, -2]} intensity={0.5} color="#a78bfa" />
+
+            <group
+                ref={groupRef}
+                scale={fitScale * (isMobile ? 0.85 : 1)}
+                position={[0, -0.5, 0]}
+            >
+                <primitive object={cloned} />
+            </group>
+        </>
+    );
+};
+
+export default Workstation;
