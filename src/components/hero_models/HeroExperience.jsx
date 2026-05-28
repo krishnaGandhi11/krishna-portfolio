@@ -1,28 +1,20 @@
-import React, { Suspense, useState, useEffect } from 'react'
-import {Canvas} from "@react-three/fiber";
-import {OrbitControls, useProgress, Html, AdaptiveDpr, AdaptiveEvents} from "@react-three/drei";
-import {useMediaQuery} from "react-responsive";
-import {Room} from "./Room.jsx";
+import { Suspense, useState, useEffect } from 'react'
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { useMediaQuery } from "react-responsive";
 import HeroLights from "./HeroLights.jsx";
-import Particles from './Particles.jsx';
+import GalaxySpiral from "./GalaxySpiral.jsx";
+import Workstation from "./Workstation.jsx";
 
-const Loader = () => {
-    const { progress } = useProgress();
-    return (
-        <Html center>
-            <div style={{ color: '#fff', fontSize: '14px', fontFamily: 'sans-serif', textAlign: 'center' }}>
-                <div style={{ marginBottom: '8px' }}>Loading {Math.round(progress)}%</div>
-                <div style={{ width: '160px', height: '4px', background: '#333', borderRadius: '2px' }}>
-                    <div style={{ width: `${progress}%`, height: '100%', background: '#a259ff', borderRadius: '2px', transition: 'width 0.3s' }} />
-                </div>
-            </div>
-        </Html>
-    );
+const SCENES = {
+    galaxy: GalaxySpiral,
+    workstation: Workstation,
 };
 
-const HeroExperience = ({ isVisible = true }) => {
-    const isMobile = useMediaQuery({query: "(max-width: 768px)" });
-    const isTablet = useMediaQuery({query: "(max-width: 1024px)" });
+const HeroExperience = ({ isVisible = true, variant = "galaxy" }) => {
+    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+    const isTablet = useMediaQuery({ query: "(max-width: 1024px)" });
     const isLargeDesktop = useMediaQuery({ query: "(min-width: 1280px)" });
     const [docVisible, setDocVisible] = useState(!document.hidden);
 
@@ -33,39 +25,43 @@ const HeroExperience = ({ isVisible = true }) => {
     }, []);
 
     const isActive = isVisible && docVisible;
+    const enableBloom = !isTablet && isLargeDesktop && variant === "galaxy";
+    const Scene = SCENES[variant] ?? GalaxySpiral;
+    const enableAutoRotate = variant !== "workstation";
 
     return (
         <Canvas
-            camera={{position: [0,0,15], fov:45}}
+            camera={{ position: [0, 0, 9], fov: 45 }}
             dpr={isMobile ? [1, 1] : [1, 1.25]}
             gl={{ antialias: false, powerPreference: "high-performance" }}
             frameloop={isActive ? "always" : "never"}
             performance={{ min: 0.6 }}
         >
-
             <OrbitControls
                 enablePan={false}
-                enableZoom={!isTablet}
-                maxDistance={20}
-                minDistance={5}
-                minPolarAngle={Math.PI / 5}
-                maxPolarAngle={Math.PI / 2}
+                enableZoom={false}
+                autoRotate={enableAutoRotate}
+                autoRotateSpeed={0.4}
+                minPolarAngle={Math.PI / 6}
+                maxPolarAngle={Math.PI - Math.PI / 6}
             />
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
 
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={null}>
                 <HeroLights />
-                <Particles count={isMobile ? 35 : 60} active={isActive} />
-                <group
-                    scale={isMobile? 0.7 : 1}
-                    position={[0,-3.5,0]}
-                    rotation={[0, -Math.PI/4, 0]}
-                >
-                    <Room enableBloom={!isTablet && isLargeDesktop} />
-                </group>
+                <Scene active={isActive} isMobile={isMobile} />
+                {enableBloom && (
+                    <EffectComposer multisampling={0}>
+                        <Bloom
+                            mipmapBlur
+                            intensity={1.1}
+                            luminanceThreshold={0.25}
+                            luminanceSmoothing={0.85}
+                        />
+                    </EffectComposer>
+                )}
             </Suspense>
-
         </Canvas>
     )
 }
