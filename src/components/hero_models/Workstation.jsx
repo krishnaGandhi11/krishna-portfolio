@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, createPortal } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -170,7 +170,7 @@ const Workstation = ({ active = true, isMobile = false }) => {
         []
     );
 
-    const { cloned, fitScale } = useMemo(() => {
+    const { cloned, fitScale, wallTv } = useMemo(() => {
         const cloned = scene.clone(true);
         const box = new THREE.Box3().setFromObject(cloned);
         const size = new THREE.Vector3();
@@ -180,8 +180,35 @@ const Workstation = ({ active = true, isMobile = false }) => {
         cloned.position.sub(center);
         const maxDim = Math.max(size.x, size.y, size.z) || 1;
         const fitScale = TARGET_SIZE / maxDim;
-        return { cloned, fitScale };
+        // The wall TV (material "2PIC-0") shows hero.jsx on its front; we hang
+        // the Joomla logo on its back face by portaling a plate into this mesh.
+        let wallTv = null;
+        cloned.traverse((o) => {
+            if (o.isMesh && o.material?.name === "2PIC-0") wallTv = o;
+        });
+        return { cloned, fitScale, wallTv };
     }, [scene]);
+
+    // Joomla logo plate for the wall TV's back face. TextureLoader (not drei's
+    // useTexture) keeps this out of Suspense. The plate is portaled in as a
+    // child of the TV mesh, so it inherits the node chain's non-uniform scale
+    // automatically — the plane sizing below is pre-compensated so the 1.20
+    // logo aspect reads correctly in world space. Laying the plane flat against
+    // the TV back (rotation.x = π/2) tips the texture, so a 180° texture spin
+    // (repeat -1,-1 about its center) puts the logo upright and unmirrored for
+    // a viewer behind the screen.
+    const joomlaTex = useMemo(() => {
+        const t = new THREE.TextureLoader().load("/images/joomla.png");
+        t.colorSpace = THREE.SRGBColorSpace;
+        t.anisotropy = 8;
+        t.wrapS = THREE.RepeatWrapping;
+        t.wrapT = THREE.RepeatWrapping;
+        t.center.set(0.5, 0.5);
+        t.repeat.set(-1, -1);
+        return t;
+    }, []);
+
+    useEffect(() => () => joomlaTex.dispose(), [joomlaTex]);
 
     useEffect(() => {
         cloned.traverse((obj) => {
@@ -219,6 +246,22 @@ const Workstation = ({ active = true, isMobile = false }) => {
                 position={[0, -0.5, 0]}
             >
                 <primitive object={cloned} />
+                {wallTv &&
+                    createPortal(
+                        <mesh
+                            position={[0, -0.1, 0]}
+                            rotation={[Math.PI / 2, 0, 0]}
+                        >
+                            <planeGeometry args={[0.89, 1.59]} />
+                            <meshBasicMaterial
+                                map={joomlaTex}
+                                transparent
+                                side={THREE.DoubleSide}
+                                toneMapped={false}
+                            />
+                        </mesh>,
+                        wallTv
+                    )}
             </group>
         </>
     );
