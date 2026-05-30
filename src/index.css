@@ -142,13 +142,57 @@ section {
         }
 
         .contact-btn {
-            @apply flex;
+            @apply hidden lg:flex;
 
             .inner {
                 @apply px-5 py-2 rounded-lg bg-white text-black group-hover:bg-black-50 transition-colors duration-300;
 
                 span {
                     @apply group-hover:text-white transition-colors duration-300;
+                }
+            }
+        }
+
+        .menu-toggle {
+            @apply flex lg:hidden items-center justify-center w-10 h-10 cursor-pointer;
+
+            .menu-icon {
+                @apply relative flex flex-col justify-between w-6 h-[18px];
+
+                span {
+                    @apply block h-0.5 w-full bg-white-50 rounded-full origin-center transition-all duration-300;
+                }
+
+                &.open span:nth-child(1) {
+                    @apply translate-y-[8px] rotate-45;
+                }
+
+                &.open span:nth-child(2) {
+                    @apply opacity-0;
+                }
+
+                &.open span:nth-child(3) {
+                    @apply -translate-y-[8px] -rotate-45;
+                }
+            }
+        }
+
+        .mobile-menu {
+            @apply lg:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out;
+
+            &.open {
+                @apply max-h-[420px] opacity-100 mt-4;
+            }
+
+            ul {
+                @apply flex flex-col gap-1 bg-black rounded-xl p-4;
+
+                li a {
+                    @apply block text-white-50 text-lg py-3 px-3 rounded-lg transition-colors duration-300 hover:bg-black-50 hover:text-white;
+                }
+
+                .mobile-contact {
+                    @apply mt-2 bg-white text-black text-center font-medium hover:bg-black-50 hover:text-white;
                 }
             }
         }
