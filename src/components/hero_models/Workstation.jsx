@@ -17,21 +17,22 @@ const PIC_CONTENT = {
 
 const CONTENT = {
     hero: {
-        title: "hero.jsx — krishna-portfolio",
+        title: "Hero.jsx — krishna-portfolio",
         bg: "#0f1117",
         fontPx: 20,
         lineH: 30,
         gutterX: 64,
         lines: [
-            { t: "// hero.jsx", c: "#6b7280" },
+            { t: "// Hero.jsx", c: "#6b7280" },
             { t: "import { Canvas } from '@react-three/fiber';", c: "#c4b5fd" },
-            { t: "import Workstation from './Workstation';", c: "#c4b5fd" },
+            { t: "import HeroExperience from './HeroExperience';", c: "#c4b5fd" },
             { t: "", c: "#ffffff" },
-            { t: "const Hero = () => (", c: "#93c5fd" },
-            { t: "  <Canvas camera={{ position: [0, 0, 9] }}>", c: "#e5e7eb" },
-            { t: "    <ambientLight intensity={0.4} />", c: "#fcd34d" },
-            { t: "    <Workstation autoRotate />", c: "#fcd34d" },
-            { t: "  </Canvas>", c: "#e5e7eb" },
+            { t: "const Hero = ({ inView }) => (", c: "#93c5fd" },
+            { t: "  <section id=\"hero\" className=\"hero-layout\">", c: "#e5e7eb" },
+            { t: "    <Canvas frameloop={inView ? 'always' : 'never'}>", c: "#fcd34d" },
+            { t: "      <HeroExperience variant=\"workstation\" />", c: "#fcd34d" },
+            { t: "    </Canvas>", c: "#e5e7eb" },
+            { t: "  </section>", c: "#e5e7eb" },
             { t: ");", c: "#93c5fd" },
             { t: "", c: "#ffffff" },
             { t: "export default Hero;", c: "#f472b6" },
@@ -46,18 +47,18 @@ const CONTENT = {
         lines: [
             { t: "$ npm run dev", c: "#a7f3d0" },
             { t: "", c: "#ffffff" },
-            { t: "  VITE v6.0.1  ready in 412 ms", c: "#e5e7eb" },
+            { t: "  VITE v7.2.4  ready in 388 ms", c: "#e5e7eb" },
             { t: "", c: "#ffffff" },
             { t: "  > Local:   localhost:5173", c: "#c4b5fd" },
-            { t: "  > Network: --host to expose", c: "#9ca3af" },
+            { t: "  > Network: use --host to expose", c: "#9ca3af" },
             { t: "", c: "#ffffff" },
-            { t: "  HMR  /src/sections/Hero.jsx", c: "#86efac" },
-            { t: "  HMR  /src/App.jsx", c: "#86efac" },
+            { t: "  HMR  src/components/NavBar.jsx", c: "#86efac" },
+            { t: "  HMR  src/sections/Hero.jsx", c: "#86efac" },
             { t: "", c: "#ffffff" },
             { t: "$ git log --oneline -3", c: "#a7f3d0" },
-            { t: "aa8c002 feat: hero variants", c: "#fcd34d" },
-            { t: "6c5a7d3 refactor: live iframes", c: "#fcd34d" },
-            { t: "ca23406 fix: thumbnails", c: "#fcd34d" },
+            { t: "d73f1c2 feat: mobile nav menu", c: "#fcd34d" },
+            { t: "5ecb077 feat: joomla logo on wall tv", c: "#fcd34d" },
+            { t: "8b32713 feat: hero switcher icons", c: "#fcd34d" },
             { t: "", c: "#ffffff" },
             { t: "$ _", c: "#a7f3d0" },
         ],
@@ -79,42 +80,48 @@ const CONTENT = {
             { t: "class PortfolioController", c: "#93c5fd" },
             { t: "  extends BaseController", c: "#93c5fd" },
             { t: "{", c: "#e5e7eb" },
-            { t: "  public function display($c = false) {", c: "#fcd34d" },
+            { t: "  public function display($cachable = false) {", c: "#fcd34d" },
             { t: "    $app  = Factory::getApplication();", c: "#e5e7eb" },
             { t: "    $view = $app->input->get('view');", c: "#e5e7eb" },
-            { t: "    parent::display($c);", c: "#e5e7eb" },
+            { t: "    return parent::display($cachable);", c: "#e5e7eb" },
             { t: "  }", c: "#fcd34d" },
             { t: "}", c: "#e5e7eb" },
         ],
     },
     css: {
-        title: "hero.css — tailwind",
+        title: "index.css — tailwind v4",
         bg: "#0e1320",
         fontPx: 17,
         lineH: 26,
         gutterX: 44,
         lines: [
-            { t: "/* hero.css */", c: "#6b7280" },
-            { t: ".hero-3d-layout {", c: "#fcd34d" },
-            { t: "  @apply relative w-full h-full;", c: "#93c5fd" },
-            { t: "  @apply rounded-2xl overflow-hidden;", c: "#93c5fd" },
-            { t: "}", c: "#fcd34d" },
+            { t: "/* index.css */", c: "#6b7280" },
+            { t: "@import \"tailwindcss\";", c: "#f472b6" },
             { t: "", c: "#ffffff" },
-            { t: ".glow {", c: "#fcd34d" },
-            { t: "  box-shadow: 0 0 40px #a78bfa;", c: "#e5e7eb" },
-            { t: "  transition: all .3s ease;", c: "#e5e7eb" },
-            { t: "}", c: "#fcd34d" },
+            { t: "@theme {", c: "#c4b5fd" },
+            { t: "  --color-black-100: #0e0e10;", c: "#e5e7eb" },
+            { t: "  --color-white-50:  #d9ecff;", c: "#e5e7eb" },
+            { t: "  --font-sans: \"Mona Sans\", sans-serif;", c: "#e5e7eb" },
+            { t: "}", c: "#c4b5fd" },
             { t: "", c: "#ffffff" },
-            { t: "@keyframes pulse {", c: "#c4b5fd" },
-            { t: "  0%, 100% { opacity: 1 }", c: "#e5e7eb" },
-            { t: "  50%      { opacity: .7 }", c: "#e5e7eb" },
+            { t: "@layer components {", c: "#c4b5fd" },
+            { t: "  .hero-layout {", c: "#fcd34d" },
+            { t: "    @apply relative z-10 xl:mt-20 mt-32;", c: "#93c5fd" },
+            { t: "  }", c: "#fcd34d" },
             { t: "}", c: "#c4b5fd" },
         ],
     },
 };
 
-const buildContentTexture = (kind, w, h) => {
+// Supersample factor: the canvas is rendered at SS× the logical size and all
+// metrics scale with it, so the baked text stays crisp when the model (and
+// therefore each screen) is magnified.
+const SS = 2;
+
+const buildContentTexture = (kind, baseW, baseH) => {
     const cfg = CONTENT[kind];
+    const w = baseW * SS;
+    const h = baseH * SS;
     const canvas = document.createElement("canvas");
     canvas.width = w;
     canvas.height = h;
@@ -123,28 +130,54 @@ const buildContentTexture = (kind, w, h) => {
     ctx.fillStyle = cfg.bg;
     ctx.fillRect(0, 0, w, h);
 
-    const barH = 36;
+    const barH = 36 * SS;
     ctx.fillStyle = "#1a1d29";
     ctx.fillRect(0, 0, w, barH);
     ["#ef4444", "#facc15", "#22c55e"].forEach((color, i) => {
         ctx.beginPath();
-        ctx.arc(18 + i * 18, barH / 2, 5, 0, Math.PI * 2);
+        ctx.arc((18 + i * 18) * SS, barH / 2, 5 * SS, 0, Math.PI * 2);
         ctx.fillStyle = color;
         ctx.fill();
     });
     ctx.fillStyle = "#9ca3af";
-    ctx.font = "13px ui-monospace, Menlo, monospace";
+    ctx.font = `${13 * SS}px ui-monospace, Menlo, monospace`;
     ctx.textBaseline = "middle";
-    ctx.fillText(cfg.title, 80, barH / 2);
+    ctx.fillText(cfg.title, 80 * SS, barH / 2);
 
-    ctx.font = `${cfg.fontPx}px ui-monospace, Menlo, monospace`;
+    // Auto-fit: measure at the desired font, then scale down (never up) so the
+    // widest line and the full block both fit the screen without clipping.
+    const padTop = 14 * SS;
+    const padBottom = 14 * SS;
+    const padRight = 16 * SS;
+    const gutterX = cfg.gutterX * SS;
+    const availW = w - gutterX - padRight;
+    const availH = h - barH - padTop - padBottom;
+
+    ctx.font = `${cfg.fontPx * SS}px ui-monospace, Menlo, monospace`;
+    let maxLineW = 0;
+    cfg.lines.forEach((line) => {
+        const lw = ctx.measureText(line.t).width;
+        if (lw > maxLineW) maxLineW = lw;
+    });
+    const scale = Math.min(
+        1,
+        availW / (maxLineW || 1),
+        availH / (cfg.lines.length * cfg.lineH * SS || 1)
+    );
+    const fontPx = cfg.fontPx * SS * scale;
+    const lineH = cfg.lineH * SS * scale;
+
+    // Vertically center the block in the area below the title bar.
+    const startY =
+        barH + padTop + Math.max(0, (availH - cfg.lines.length * lineH) / 2);
+
+    ctx.font = `${fontPx}px ui-monospace, Menlo, monospace`;
     ctx.textBaseline = "top";
-    const startY = barH + 12;
     cfg.lines.forEach((line, i) => {
         ctx.fillStyle = "#4b5563";
-        ctx.fillText(String(i + 1).padStart(2, " "), 12, startY + i * cfg.lineH);
+        ctx.fillText(String(i + 1).padStart(2, " "), 12 * SS, startY + i * lineH);
         ctx.fillStyle = line.c;
-        ctx.fillText(line.t, cfg.gutterX, startY + i * cfg.lineH);
+        ctx.fillText(line.t, gutterX, startY + i * lineH);
     });
 
     const texture = new THREE.CanvasTexture(canvas);
@@ -154,7 +187,9 @@ const buildContentTexture = (kind, w, h) => {
     return texture;
 };
 
-const TARGET_SIZE = 5;
+// Larger than the model's natural fit so the on-screen monitors — and the code
+// baked onto them — read clearly. The Joomla logo on the TV back scales too.
+const TARGET_SIZE = 6.5;
 
 const Workstation = ({ active = true, isMobile = false }) => {
     const groupRef = useRef();
