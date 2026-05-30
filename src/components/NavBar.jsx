@@ -3,6 +3,7 @@ import {navLinks, resumeLink} from "../constants/index.js";
 
 const NavBar = () => {
     const [scrolled, setScrolled] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -14,12 +15,29 @@ const NavBar = () => {
         return () => { window.removeEventListener('scroll', handleScroll); }
     }, [])
 
+    // Close the mobile menu on Escape and lock body scroll while it is open.
+    useEffect(() => {
+        if (!menuOpen) return;
 
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') setMenuOpen(false);
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = '';
+        }
+    }, [menuOpen])
+
+    const closeMenu = () => setMenuOpen(false);
 
     return (
-        <header className={`navbar ${scrolled ? 'scrolled' : 'not-scrolled'}`}>
+        <header className={`navbar ${scrolled || menuOpen ? 'scrolled' : 'not-scrolled'}`}>
             <div className="inner">
-                <a className="logo" href="#hero">
+                <a className="logo" href="#hero" onClick={closeMenu}>
                     Krishna Gandhi
                 </a>
                 <nav className="desktop">
@@ -45,7 +63,45 @@ const NavBar = () => {
                         <span>Contact me</span>
                     </div>
                 </a>
+                <button
+                    type="button"
+                    className="menu-toggle"
+                    aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={menuOpen}
+                    aria-controls="mobile-menu"
+                    onClick={() => setMenuOpen((open) => !open)}
+                >
+                    <span className={`menu-icon ${menuOpen ? 'open' : ''}`}>
+                        <span />
+                        <span />
+                        <span />
+                    </span>
+                </button>
             </div>
+
+            <nav
+                id="mobile-menu"
+                className={`mobile-menu ${menuOpen ? 'open' : ''}`}
+                aria-hidden={!menuOpen}
+            >
+                <ul>
+                    {navLinks.map(({link, name}) => (
+                        <li key={name}>
+                            <a href={link} onClick={closeMenu}>{name}</a>
+                        </li>
+                    ))}
+                    <li>
+                        <a href={resumeLink} target="_blank" rel="noreferrer" onClick={closeMenu}>
+                            Resume
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" className="mobile-contact" onClick={closeMenu}>
+                            Contact me
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </header>
     )
 }
