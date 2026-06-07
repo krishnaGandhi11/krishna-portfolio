@@ -141,11 +141,9 @@ const expCards = [
         title: "Google Summer of Code 2026 — Joomla",
         date: "GSoC Contributor | May 2026–Present",
         responsibilities: [
-            "Selected as a GSoC 2026 contributor for the Joomla open-source project, building the 'Translator Feedback Loop' extension.",
-            "Designing a native Joomla CMS extension inspired by Reinforcement Learning from Human Feedback (RLHF) to improve translation quality across 64+ languages.",
-            "Building a full-stack component (com_translator) with side-by-side translation editor, per-language feedback queues, and AI-powered translation drafts.",
-            "Architecting the system using Joomla 5.x/6.x standards: Dependency Injection, Event Dispatchers, MVC components, and Task Scheduler plugins.",
-            "Mentored by Herman Peeren — weekly meetings, code reviews, and iterative architecture refinement using the Weblinks reference repository."
+            "I'm a GSoC 2026 contributor building the Translator Feedback Loop extension (com_translator) for Joomla — a tool that turns translator corrections into better machine translations.",
+            "It's a RAG system inspired by RLHF: corrections from the community get stored and fed back into the LLM's prompts, so translations keep getting sharper for Joomla-specific terms across 64+ languages.",
+            "I built the side-by-side translation editor, per-language feedback queues, and AI-drafted translations that the community can review and refine."
         ],
     },
     {
@@ -153,12 +151,14 @@ const expCards = [
         logoPath: "/images/joomla-img.png",
         title: "Joomla Core Contributor & Extension Developer",
         date: "Open Source | 2025–Present",
+        link: {
+            url: "https://github.com/joomla/joomla-cms/pulls?q=is%3Amerged+is%3Apr+author%3Akrishnagandhicode",
+            label: "See my 15 merged PRs →",
+        },
         responsibilities: [
-            "Engineering core stability and accessibility for the Joomla 5.x/6.x ecosystem.",
-            "High-Impact Fixes: Resolved critical system failures including the Calendar Fatal Crash (#46833) and Asset Path Resolution (#47251).",
-            "Core Contributions: Merged 30+ Pull Requests across ACL security, Action Logs (#46884), and UI accessibility.",
-            "Extension Architecture: Developed a custom Content Plugin leveraging Dependency Injection (DI) and com_ajax for automated metadata workflows.",
-            "Community Leadership: Active participant in weekly PR testing and global 'Pizza, Bugs and Fun' events, moving community code toward production readiness."
+            "I've had 15 pull requests merged into the Joomla CMS core, working on real bug fixes, ACL security, action logs, and UI accessibility.",
+            "Most of what I do is stability and accessibility work for Joomla 5.x and 6.x — tracking down crashes and edge cases, then shipping fixes that hold up in production.",
+            "I'm active in the community too, joining the weekly PR testing and the global 'Pizza, Bugs and Fun' events to help get community code ready to merge."
         ],
     },
     {
@@ -166,13 +166,11 @@ const expCards = [
         img1Path: "/images/WebDev-logo.png",
         logoPath: "/images/cgc-logo.png",
         title: "B.Tech Journey",
-        date: "Chandigarh Group of Colleges, Landran | 2023–2027 | CGPA: 8.02",
+        date: "Chandigarh Group of Colleges, Landran | 2023–2027 | CGPA: 8.29",
         responsibilities: [
-            "Started B.Tech in CSE and began building a strong base in programming, web technologies, and problem-solving.",
-            "Completed Front-End Web Development (Infosys Springboard) — HTML, CSS, JS, responsive designs.",
-            "Built multiple practical projects including ChatBot using Gemini AI (React + JS), portfolio websites, and interactive UI components.",
-            "Gained hands-on experience with React.js, Tailwind, JavaScript, APIs, and version control (Git/GitHub).",
-            "Actively applying academic concepts in real-world projects and continuous self-learning."
+            "I'm doing my B.Tech in CSE here, and it's where I really found my footing in web development — including a Front-End Web Development certification from Infosys Springboard (HTML, CSS, JS, responsive design).",
+            "I've built a bunch of hands-on projects along the way, like a chatbot using Gemini AI (React + JS), a few portfolio sites, and interactive UI components.",
+            "Day to day I work with React, Tailwind, JavaScript, REST APIs, and Git/GitHub, and I try to put whatever I'm learning straight into real projects."
         ],
     },
     {
@@ -182,24 +180,9 @@ const expCards = [
         title: "Java DSA Training & Open-Source Contributions",
         date: "2024-Present",
         responsibilities: [
-            "Completed structured Data Structures & Algorithms in Java training.",
-            "Strengthened fundamentals: arrays, recursion, OOP, trees, graphs, hashing, and optimization.",
-            "Applied DSA concepts in building scalable logic for projects like the Java Ticket Booking System.",
-            "Started contributing to Joomla Open Source CMS on GitHub.",
-            "Improving real-world skills in open-source workflows, issue tracking, CMS development, and collaborative engineering."
-        ],
-    },
-    {
-        imgPath: "/images/GI-img.png",
-        img1Path: "/images/ML-img.png",
-        logoPath: "/images/GI-logo.png",
-        title: "Machine Learning & Applied AI Projects (2024 – Present)",
-        date: "2024",
-        responsibilities: [
-            "Completed 1-month Machine Learning Using Python training.",
-            "Worked with Python, Sklearn, data preprocessing, model evaluation, and deployment basics.",
-            "Built practical ML projects: Resume Role Classifier (95% accuracy using TF-IDF + Naive Bayes) and Real-Time Intelligent Navigation Assistant (AI-driven stop suggestions, Maps API integration).",
-            "Integrated ML concepts with full-stack skills for intelligent features in apps."
+            "I went through a structured Data Structures & Algorithms course in Java and got comfortable with arrays, recursion, OOP, trees, graphs, and hashing.",
+            "I put it to use building actual logic — like a Java Ticket Booking System — instead of just grinding problems in isolation.",
+            "This is also where I started contributing to open source, picking up Git workflows, issue tracking, and collaborative engineering on the Joomla CMS."
         ],
     },
 ];
