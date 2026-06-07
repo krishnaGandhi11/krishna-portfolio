@@ -70,9 +70,9 @@ const ExperienceSection = () => {
                                 <div className="xl:w-2/6">
                                     <GlowCard card={card}>
                                         <div>
-                                            <img src={card.imgPath} alt="exp-img" loading="lazy" />
+                                            <img src={card.imgPath} alt="exp-img" loading="lazy" className="w-full max-h-44 object-contain" />
                                             {card.img1Path ? (
-                                                <img src={card.img1Path} alt="exp-img" loading="lazy" />
+                                                <img src={card.img1Path} alt="exp-img" loading="lazy" className="w-full max-h-44 object-contain" />
                                             ) : null}
                                         </div>
                                     </GlowCard>
