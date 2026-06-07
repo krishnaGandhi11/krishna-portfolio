@@ -255,8 +255,6 @@ const about = {
     imagePath: "/images/IMG_2149.png",
 };
 
-const resumeLink = "https://drive.google.com/file/d/1IyRf-1mgZU4o-NUAMtyKlPhWSDs2hqlL/view?usp=sharing";
-
 export {
     words,
     abilities,
@@ -269,5 +267,4 @@ export {
     techStackImgs,
     navLinks,
     about,
-    resumeLink,
 };
