@@ -104,6 +104,16 @@ const ExperienceSection = () => {
                                                         )
                                                     )}
                                                 </ul>
+                                                {card.link ? (
+                                                    <a
+                                                        href={card.link.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-block mt-5 text-lg text-white hover:text-white-50 underline underline-offset-4 transition-colors"
+                                                    >
+                                                        {card.link.label}
+                                                    </a>
+                                                ) : null}
                                             </div>
                                         </div>
                                     </div>
