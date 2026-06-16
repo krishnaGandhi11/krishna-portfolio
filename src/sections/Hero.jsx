@@ -52,7 +52,7 @@ const Hero = () => {
     return (
         <section id="hero" ref={heroRef} className="relative overflow-hidden">
             <div className="absolute top-0 left-0 z-10">
-                <img src="/images/bg.png" alt="Background" />
+                <img src="/images/bg.png" alt="" width={418} height={327} />
             </div>
             <div className= "hero-layout">
                 {/*LEFT: HERO CONTENT */}
