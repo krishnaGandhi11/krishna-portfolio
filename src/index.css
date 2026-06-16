@@ -531,3 +531,22 @@ section {
         transform: translateX(0);
     }
 }
+
+/* Respect users who prefer reduced motion: neutralize transitions and one-shot
+   animations, and pin the infinite hero word-slider + logo marquee to their
+   first frame so they sit still instead of snapping to a mid/end keyframe.
+   (GSAP scroll/entrance reveals are gated separately via gsap.matchMedia.) */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .wrapper,
+    .marquee-box {
+        animation: none !important;
+    }
+}

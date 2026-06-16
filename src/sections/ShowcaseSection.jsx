@@ -74,19 +74,24 @@ const ShowcaseSection = () => {
     const sectionRef = useRef(null);
 
     useGSAP(() => {
-        gsap.set(".first-project-wrapper, .project", { y: 40, opacity: 0 });
+        // Only set the hidden start state + reveal for users who haven't asked for
+        // reduced motion — otherwise the gsap.set would leave the cards stuck at opacity:0.
+        const mm = gsap.matchMedia();
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+            gsap.set(".first-project-wrapper, .project", { y: 40, opacity: 0 });
 
-        gsap.to(".first-project-wrapper, .project", {
-            y: 0,
-            opacity: 1,
-            duration: 0.9,
-            stagger: 0.2,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 75%",
-                once: true,
-            },
+            gsap.to(".first-project-wrapper, .project", {
+                y: 0,
+                opacity: 1,
+                duration: 0.9,
+                stagger: 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 75%",
+                    once: true,
+                },
+            });
         });
     }, { scope: sectionRef, dependencies: [] })
 
