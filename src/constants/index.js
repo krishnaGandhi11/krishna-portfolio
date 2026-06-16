@@ -153,7 +153,7 @@ const expCards = [
         date: "Open Source | 2025–Present",
         link: {
             url: "https://github.com/joomla/joomla-cms/pulls?q=is%3Amerged+is%3Apr+author%3Akrishnagandhicode",
-            label: "See my 15 merged PRs →",
+            label: "See my contributed PRs →",
         },
         responsibilities: [
             "I've had 15 pull requests merged into the Joomla CMS core, working on real bug fixes, ACL security, action logs, and UI accessibility.",
