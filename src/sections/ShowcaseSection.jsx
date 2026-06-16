@@ -74,15 +74,15 @@ const ShowcaseSection = () => {
     const sectionRef = useRef(null);
 
     useGSAP(() => {
-        // Only set the hidden start state + reveal for users who haven't asked for
-        // reduced motion — otherwise the gsap.set would leave the cards stuck at opacity:0.
+        // Reveal only for users who haven't asked for reduced motion. Use gsap.from
+        // (not set + to): matchMedia cleanly reverts a `from` tween back to the natural
+        // visible state, so toggling reduced motion at runtime can't leave the cards
+        // stuck at opacity:0.
         const mm = gsap.matchMedia();
         mm.add("(prefers-reduced-motion: no-preference)", () => {
-            gsap.set(".first-project-wrapper, .project", { y: 40, opacity: 0 });
-
-            gsap.to(".first-project-wrapper, .project", {
-                y: 0,
-                opacity: 1,
+            gsap.from(".first-project-wrapper, .project", {
+                y: 40,
+                opacity: 0,
                 duration: 0.9,
                 stagger: 0.2,
                 ease: "power2.out",
