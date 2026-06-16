@@ -140,6 +140,10 @@ const expCards = [
         logoPath: "/images/gsoc-logo.png",
         title: "Google Summer of Code 2026 — Joomla",
         date: "GSoC Contributor | May 2026–Present",
+        link: {
+            url: "https://github.com/joomla-projects/gsoc26_translator_feedback",
+            label: "See the project on GitHub →",
+        },
         responsibilities: [
             "I'm a GSoC 2026 contributor building the Translator Feedback Loop extension (com_translator) for Joomla — a tool that turns translator corrections into better machine translations.",
             "It's a RAG system inspired by RLHF: corrections from the community get stored and fed back into the LLM's prompts, so translations keep getting sharper for Joomla-specific terms across 64+ languages.",
