@@ -10,48 +10,51 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ExperienceSection = () => {
     useGSAP(() => {
-        gsap.utils.toArray(".timeline-card").forEach((card) => {
-            gsap.from(card, {
-                x: -50,
-                opacity: 0,
-                duration: 0.7,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 85%",
-                    once: true,
-                },
+        const mm = gsap.matchMedia();
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+            gsap.utils.toArray(".timeline-card").forEach((card) => {
+                gsap.from(card, {
+                    x: -50,
+                    opacity: 0,
+                    duration: 0.7,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        once: true,
+                    },
+                });
             });
+
+            gsap.fromTo(".timeline",
+                { scaleY: 1 },
+                {
+                    scaleY: 0,
+                    transformOrigin: "bottom bottom",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".timeline",
+                        start: "top center",
+                        end: "70% center",
+                        scrub: true,
+                    },
+                }
+            );
+
+            gsap.utils.toArray(".expText").forEach((text) => {
+                gsap.from(text, {
+                    opacity: 0,
+                    xPercent: 0,
+                    duration: 1,
+                    ease: "power2.inOut",
+                    scrollTrigger: {
+                        trigger: text,
+                        start: "top 60%",
+                        once: true,
+                    },
+                });
+            }, "<");
         });
-
-        gsap.fromTo(".timeline",
-            { scaleY: 1 },
-            {
-                scaleY: 0,
-                transformOrigin: "bottom bottom",
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".timeline",
-                    start: "top center",
-                    end: "70% center",
-                    scrub: true,
-                },
-            }
-        );
-
-        gsap.utils.toArray(".expText").forEach((text) => {
-            gsap.from(text, {
-                opacity: 0,
-                xPercent: 0,
-                duration: 1,
-                ease: "power2.inOut",
-                scrollTrigger: {
-                    trigger: text,
-                    start: "top 60%",
-                    once: true,
-                },
-            });
-        }, "<");
     }, []);
 
     return (
